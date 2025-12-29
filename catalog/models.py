@@ -1,6 +1,6 @@
 from django.db import models
 
-class Car(models.Model):
+class Carro(models.Model):
     placa = models.CharField(max_length=10, unique=True)
     modelo = models.CharField(max_length=30)
     marca = models.CharField(max_length=100)

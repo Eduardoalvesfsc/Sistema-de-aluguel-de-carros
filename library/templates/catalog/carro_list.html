@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Catalago de carros</h1>
+    <ul>
+        {% for carro in carros %}
+            <li>{{ carro.title }} by {{ carro.author }} ({{ carro.total_disponivel}})</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_carro' %}">Adicionar novo carro</a>
+    <br>
+    <a href="{% url 'login' %}">Login</a>
+</body>
+</html>

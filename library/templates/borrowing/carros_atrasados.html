@@ -1,0 +1,6 @@
+<h1>Carros atrasados</h1>
+<ul>
+    {% for b in carros_atrasados %}
+        <li>{{ b.carro }} (Due: {{ b.data_vencida }}) - Borrower: {{ b.user}}</li>
+    {% endfor %}
+</ul>

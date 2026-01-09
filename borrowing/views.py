@@ -38,7 +38,7 @@ def return_carro(request, pk):
     return redirect('meus_carros')
 
 @login_required
-def meu_carros(request):
+def meus_carros(request):
     carros_alugados = carro_alugado.objects.filter(user=request.user, returned=False)
     history = carro_alugado.objects.filter(user=request.user, returned=True).order_by('-data_aluguel')[:10]
     return render(request, 'borrowing/meus_carros.html', {

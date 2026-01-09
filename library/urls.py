@@ -31,7 +31,7 @@ urlpatterns = [
     # Borrowing
     path('alugado/', borrowing_views.carro_alugado, name='carro_alugado'),
     path('return/<int:pk>/', borrowing_views.return_carro, name='return_carro'),
-    path('meus-carros/', borrowing_views.meu_carros, name='meus_carros'),
+    path('meus-carros/', borrowing_views.meus_carros, name='meus_carros'),
     path('vencido/', borrowing_views.data_vencida, name='data_vencida'),
 
     # Auth

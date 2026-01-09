@@ -3,6 +3,7 @@
 <head>
     <title>Register</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -50,6 +51,17 @@
     </form>
 
     <p>já possui uma conta? <a href="{% url 'login' %}">Faça login aqui</a></p>
+
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p style="color:red;">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+
+    {% for error in form.non_field_errors %}
+        <p style="color:red;">{{ error }}</p>
+    {% endfor %}
+
 </body>
 
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import carro_alugado
 from .forms import CarroAlugadoForm
 from catalog.models import Carro
+from .forms import CarroAlugadoForm, RegisterForm
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -49,3 +50,14 @@ def meu_carros(request):
 def data_vencida(request):
     vencido = carro_alugado.objetcs.filter(due_date__lt=datetime.date.today(), returned=False)
     return render(request, 'borrowing/data_vencida.html', {'data_vencida': vencido})
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login') # Redirecione para login após o registro estiver concluido
+    else:
+        form = RegisterForm()
+
+    return render(request, 'registration/register.html', {'form': form})

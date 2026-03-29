@@ -7,44 +7,66 @@
 
 <h1>Meus carros</h1>
 
-<p>
-    <a href="{% url 'carros_alugados' %}">Alugar um novo carro</a>
-</p>
+    <p>
+        <a href="{% url 'carros_alugados' %}">Alugar um novo carro</a>
+    </p>
 
 <h2>Atualmente alugado</h2>
 
-{% if carros_alugados %}
-    <ul>
-        {% for b in carros_alugados %}
-            <li>
-                {{ b.carro }} (Due: {{ b.data_vencida }})
+    {% if carros_alugados %}
+        <ul>
+            {% for b in carros_alugados %}
+                <li>
+                    {{ b.carro }} (Due: {{ b.data_vencida }})
 
-                <form action="{% url 'carro_retornado' b.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Retornado</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>You don't have any books checked out.</p>
-{% endif %}
+                    <form action="{% url 'carro_retornado' b.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Retornado</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any books checked out.</p>
+    {% endif %}
 
 <h2>Borrowing History</h2>
 
-{% if history %}
-    <ul>
-        {% for h in history %}
-            <li>{{ h.carro }} (Returned on {{ h.data_aluguel }})</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Ainda não há um histórico de empréstimos.</p>
-{% endif %}
+    {% if history %}
+        <ul>
+            {% for h in history %}
+                <li>{{ h.carro }} (Returned on {{ h.data_aluguel }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ainda não há um histórico de empréstimos.</p>
+    {% endif %}
 
 <p>
     <a href="{% url 'logout' %}">Logout</a>
 </p>
 
+        {% extends 'base.html' %}
+
+    {% block content %}
+    <h2>Meus Carros Alugados</h2>
+
+    <ul>
+        {% for aluguel in carros_alugados %}
+            <li>
+                {{ aluguel.carro.nome }}
+
+                {% if not aluguel.returned %}
+                    <a href="{% url 'return_carro' aluguel.id %}">
+                        Devolver
+                    </a>
+                {% else %}
+                    (Devolvido)
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% endblock %}
 </body>
 </html>

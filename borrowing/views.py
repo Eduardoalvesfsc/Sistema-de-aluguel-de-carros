@@ -61,3 +61,13 @@ def register_view(request):
         form = RegisterForm()
 
     return render(request, 'registration/register.html', {'form': form})
+
+def meus_carros(request):
+    carros_alugados = CarroAlugado.objects.filter(
+        user=request.user,
+        returned=False
+    )
+
+    return render(request, 'borrowing/meus_carros.html', {
+        'carros_alugados': carros_alugados
+    })

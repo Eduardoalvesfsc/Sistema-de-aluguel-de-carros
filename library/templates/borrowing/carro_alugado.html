@@ -4,3 +4,16 @@
     {{ form.as_p }}
     <button type="submit">Alugar</button>
 </form>
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Alugar Carro</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Alugar</button>
+</form>
+
+{% endblock %}

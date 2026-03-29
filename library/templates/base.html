@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Aluguel de Carros</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{% url 'carro_list' %}">Carros</a>
+        <a href="{% url 'meus_carros' %}">Meus Aluguéis</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

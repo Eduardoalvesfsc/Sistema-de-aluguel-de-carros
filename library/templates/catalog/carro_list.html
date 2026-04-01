@@ -1,38 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Catalago de carros</h1>
-    <ul>
-        {% for carro in carros %}
-            <li>{{ carro.title }} by {{ carro.author }} ({{ carro.total_disponivel}})</li>
-        {% endfor %}
-    </ul>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Catálogo de Carros</h1>
+
+<ul>
+    {% for carro in carros %}
+        <li>
+            {{ carro.modelo }} - {{ carro.marca }} ({{ carro.ano }}) 
+            | Disponível: {{ carro.total_disponivel }}
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'carro_alugado' carro.id %}">
+                    <button>Alugar</button>
+                </a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<br>
+
+{% if user.is_authenticated and user.is_staff %}
     <a href="{% url 'add_carro' %}">Adicionar novo carro</a>
-    <br>
-    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+<br>
+<a href="{% url 'login' %}">Login</a>
 
-    {% extends 'base.html' %}
-
-    {% block content %}
-    <h2>Lista de Carros</h2>
-
-    <ul>
-        {% for carro in carros %}
-            <li>
-                {{ carro.nome }} - Disponível: {{ carro.total_disponivel }}
-
-                {% if user.is_authenticated %}
-                    <a href="{% url 'carro_alugado' %}">Alugar</a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-
-    {% endblock %}
-</body>
-</html>
+{% endblock %}

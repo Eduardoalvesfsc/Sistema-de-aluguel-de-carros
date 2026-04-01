@@ -26,10 +26,10 @@ urlpatterns = [
 
     # Catalog
     path('', catalog_views.carro_list, name='carro_list'),
-    path('add-book/', catalog_views.add_carro, name='add_carro'),
+    path('add-carro/', catalog_views.add_carro, name='add_carro'),
 
     # Borrowing
-    path('alugado/', borrowing_views.carro_alugado, name='carro_alugado'),
+    path('alugado/<int:carro_id>/', borrowing_views.carro_alugado, name='carro_alugado'),
     path('return/<int:pk>/', borrowing_views.return_carro, name='return_carro'),
     path('meus-carros/', borrowing_views.meus_carros, name='meus_carros'),
     path('vencido/', borrowing_views.data_vencida, name='data_vencida'),
@@ -39,6 +39,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', register_view, name='register'),
 
-    path('', include('borrowing.urls'))
-]
+    path('alugado/<int:carro_id>/', borrowing_views.carro_alugado, name='carro_alugado')
 
+]

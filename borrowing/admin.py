@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import carro_alugado
+from .models import CarroAlugado
 
-admin.site.register(carro_alugado)
+admin.site.register(CarroAlugado)

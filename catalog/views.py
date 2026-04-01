@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Carro
 from .forms import CarroForm
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -15,3 +16,7 @@ def add_carro(request):
     else:
         form = CarroForm()
     return render(request, 'catalog/add_carro.html', {'form': form})
+
+def is_funcionario(user):
+    return user.is_staff
+

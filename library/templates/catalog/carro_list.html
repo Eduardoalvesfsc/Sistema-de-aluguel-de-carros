@@ -7,7 +7,7 @@
 <ul>
     {% for carro in carros %}
         <li>
-            {{ carro.modelo }} - {{ carro.marca }} ({{ carro.ano }}) 
+            {{ carro.nome }} - {{ carro.marca }} ({{ carro.ano }}) 
             | Disponível: {{ carro.total_disponivel }}
 
             {% if user.is_authenticated %}
@@ -25,6 +25,5 @@
     <a href="{% url 'add_carro' %}">Adicionar novo carro</a>
 {% endif %}
 <br>
-<a href="{% url 'login' %}">Login</a>
 
 {% endblock %}

@@ -9,12 +9,14 @@
 <body>
     <h1>Adicionar novo carro</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar carro</button>
     </form>
 
     <p><a href="{% url 'carro_list' %}">Volta o carro para a lista</a></p>
+
+</form>
 </body>
 </html>

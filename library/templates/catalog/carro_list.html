@@ -7,18 +7,28 @@
 <ul>
     {% for carro in carros %}
         <li>
+
+            
+
             {{ carro.nome }} - {{ carro.marca }} ({{ carro.ano }}) 
             | Disponível: {{ carro.total_disponivel }}
 
             {% if user.is_authenticated %}
-                <a href="{% url 'carro_alugado' carro.id %}">
-                    <button>Alugar</button>
-                </a>
+                <form action="{% url 'carro_alugado' carro.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Alugar</button>
+                </form>
             {% endif %}
+
+            {% if carro.imagem %}
+            <img src="{{ carro.imagem.url }}" width="150">
+            {% endif %}
+            
         </li>
     {% endfor %}
-</ul>
 
+</ul>
+        
 <br>
 
 {% if user.is_authenticated and user.is_staff %}

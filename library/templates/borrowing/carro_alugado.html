@@ -1,15 +1,8 @@
 {% extends 'base.html' %}
 
-<h1>Alugar um carro</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Alugar</button>
-</form>
-
 {% block content %}
-<h2>Alugar Carro</h2>
 
+<h1>Alugar um carro</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

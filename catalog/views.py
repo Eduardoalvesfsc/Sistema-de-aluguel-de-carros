@@ -3,6 +3,8 @@ from .models import Carro
 from .forms import CarroForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -10,7 +12,7 @@ def carro_list(request):
 
 def add_carro(request):
     if request.method =='POST':
-        form = CarroForm(request.POST)
+        form = CarroForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('carro_list')
@@ -20,17 +22,3 @@ def add_carro(request):
 
 def is_funcionario(user):
     return user.is_staff
-
-def carro_alugado(request, carro_id):
-    carro = get_object_or_404(Carro, id=carro_id)
-
-    if carro.total_disponivel <= 0:
-        messages.error(request, "Carro indisponível no momento.")
-        return redirect('carro_list')
-
-    # lógica de aluguel
-    carro.total_disponivel -= 1
-    carro.save()
-
-    messages.success(request, "Carro alugado com sucesso!")
-    return redirect('meus_carros')

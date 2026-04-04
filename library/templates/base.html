@@ -34,6 +34,12 @@
 <body>
 
     <nav>
+            {% if messages %}
+        {% for message in messages %}
+            <p style="color: red;">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+
         <a href="{% url 'carro_list' %}">Carros</a>
         <a href="{% url 'meus_carros' %}">Meus Aluguéis</a>
 

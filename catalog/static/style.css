@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+}
+
+/* NAV */
+nav {
+    margin-bottom: 20px;
+}
+
+/* LINKS */
+a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    transition: 0.3s;
+}
+
+a:hover {
+    background-color: green;
+    color: white;
+    
+}
+
+/* FORM */
+form {
+    display: inline;
+}
+
+/* BUTTON */
+button {
+    margin-right: 10px;
+    background-color: #007bff;
+    transition: 0.3s;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* LISTA */
+li {
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    list-style: none; /* redundante, mas garante */
+
+}
+
+/* MENSAGENS */
+.message {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.error {
+    border: 1px solid red;
+    color: red;
+    background-color: #ffe6e6;
+}
+
+.success {
+    border: 1px solid green;
+    color: green;
+    background-color: #e6ffe6;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}

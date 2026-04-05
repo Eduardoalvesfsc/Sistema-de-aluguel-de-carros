@@ -21,7 +21,17 @@
             {% endif %}
 
             {% if carro.imagem %}
-            <img src="{{ carro.imagem.url }}" width="150">
+            <img src="{{ carro.imagem.url }}" width="300">
+            {% endif %}
+
+            <!-- BOTÃO REMOVER -->
+            {% if user.is_staff %}
+                <form action="{% url 'remover_carro' carro.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" style="background-color:red;">
+                        Remover
+                    </button>
+                </form>
             {% endif %}
             
         </li>

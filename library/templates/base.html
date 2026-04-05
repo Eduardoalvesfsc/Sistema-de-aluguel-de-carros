@@ -1,54 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
+
     <title>Sistema de Aluguel de Carros</title>
-
-    <style>
-        body {
-            font-family: Arial;
-            margin: 20px;
-        }
-
-        nav {
-            margin-bottom: 20px;
-        }
-
-        a {
-            margin-right: 10px;
-        }
-
-        form {
-            display: inline;
-        }
-
-        button {
-            margin-right: 10px;
-        }
-
-        li {
-            margin-bottom: 12px;
-            padding: 8px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .message {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-
-        .error {
-            border: 1px solid red;
-            color: red;
-            background-color: #ffe6e6;
-        }
-
-        .success {
-            border: 1px solid green;
-            color: green;
-            background-color: #e6ffe6;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
 </head>
 
 <body>

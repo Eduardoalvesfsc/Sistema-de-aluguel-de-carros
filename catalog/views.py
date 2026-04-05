@@ -22,3 +22,9 @@ def add_carro(request):
 
 def is_funcionario(user):
     return user.is_staff
+
+@require_POST
+def remover_carro(request, id):
+    carro = get_object_or_404(Carro, id=id)
+    carro.delete()
+    return redirect('carro_list')

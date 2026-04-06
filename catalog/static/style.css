@@ -1,81 +1,82 @@
+/* RESET */
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
+    background-color: #f4f6f9;
 }
 
-/* NAV */
-nav {
-    margin-bottom: 20px;
+/* LAYOUT */
+.layout {
+    display: flex;
 }
 
-/* LINKS */
-a {
-    margin-right: 10px;
-    text-decoration: none;
-    color: black;
-    padding: 5px;
-    transition: 0.3s;
+/* MAIN */
+.main {
+    flex: 1;
 }
 
-a:hover {
-    background-color: green;
-    color: white;
-    
+/* TOPBAR */
+.topbar {
+    background-color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
 }
 
-/* FORM */
-form {
-    display: inline;
+/* CONTEÚDO */
+.content {
+    padding: 20px;
 }
 
-/* BUTTON */
+/* LISTAS */
+li {
+    list-style: none;
+    background: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;       /* CENTRALIZA VERTICAL */
+    justify-content: space-between; /* ESPAÇA ENTRE TEXTO E BOTÕES */
+}
+
+/* BOTÕES */
 button {
-    margin-right: 10px;
-    background-color: #007bff;
-    transition: 0.3s;
-    color: white;
+    padding: 6px 12px;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
+    border-radius: 4px;
     cursor: pointer;
 }
 
-/* LISTA */
-li {
-    margin-bottom: 12px;
-    padding: 12px;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    list-style: none; /* redundante, mas garante */
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
 
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
 }
 
 /* MENSAGENS */
 .message {
+    margin: 15px 20px;
     padding: 10px;
-    margin: 10px 0;
     border-radius: 5px;
 }
 
 .error {
-    border: 1px solid red;
-    color: red;
     background-color: #ffe6e6;
+    color: red;
 }
 
 .success {
-    border: 1px solid green;
-    color: green;
     background-color: #e6ffe6;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
+    color: green;
 }

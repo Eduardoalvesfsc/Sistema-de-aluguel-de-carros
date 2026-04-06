@@ -14,14 +14,6 @@
         <a href="{% url 'carro_list' %}">Carros</a>
         <a href="{% url 'meus_carros' %}">Meus Aluguéis</a>
 
-        {% if user.is_authenticated %}
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-        {% endif %}
     </nav>
 
     <hr>
@@ -38,8 +30,44 @@
         {% endfor %}
     {% endif %}
 
-    {% block content %}
-    {% endblock %}
+    <div class="layout">
+
+        <!-- CONTEÚDO -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <span>Bem-vindo, {{ user.username }}</span>
+
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-danger">Logout</button>
+                    </form>
+                {% endif %}
+            </header>
+
+            <!-- MENSAGENS -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message 
+                        {% if message.tags == 'error' %}error{% endif %}
+                        {% if message.tags == 'success' %}success{% endif %}
+                    ">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- CONTEÚDO DINÂMICO -->
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+        </div>
+
+    </div>
 
 </body>
 </html>

@@ -3,10 +3,32 @@
 {% block content %}
 
 <h1>Alugar um carro</h1>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Alugar</button>
-</form>
 
+    <div>
+        <label>Cliente:</label>
+        {{ form.cliente }}
+    </div>
+
+   <div>
+        <label for="id_quantidade_dias">Quantidade de dias:</label>
+        {{ form.quantidade_dias }}
+    </div>
+
+    <div>
+        <label>Forma de pagamento:</label>
+        {{ form.forma_pagamento }}
+    </div>
+
+    <div>
+        <label>Observações:</label>
+        {{ form.observacoes }}
+    </div>
+
+    <button type="submit">Confirmar Aluguel</button>
+</form>
 {% endblock %}
+

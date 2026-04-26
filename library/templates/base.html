@@ -13,12 +13,11 @@
     <nav>
         <a href="{% url 'carro_list' %}">Carros</a>
         <a href="{% url 'meus_carros' %}">Meus Aluguéis</a>
-
     </nav>
 
     <hr>
 
-    <!-- ✅ MENSAGENS DO DJANGO -->
+    <!-- MENSAGENS DO DJANGO -->
     {% if messages %}
         {% for message in messages %}
             <div class="message 

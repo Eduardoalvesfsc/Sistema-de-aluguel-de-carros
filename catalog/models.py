@@ -12,6 +12,15 @@ class Carro(models.Model):
     def __str__(self):
         return self.nome
     
+class Cliente(models.Model):
+    nome = models.CharField(max_length=100)
+    cpf = models.CharField(max_length=14)
+    telefone = models.CharField(max_length=20)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.nome
+
 class Aluguel(models.Model):
     funcionario = models.ForeignKey(User, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
@@ -27,13 +36,4 @@ class Aluguel(models.Model):
         return self.data_inicio + timedelta(days=self.quantidade_dias)
 
     def __str__(self):
-        return f"{self.carro} - {self.usuario}"
-    
-class Cliente(models.Model):
-    nome = models.CharField(max_length=100)
-    cpf = models.CharField(max_length=14)
-    telefone = models.CharField(max_length=20)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.nome
+        return f"{self.carro} - {self.cliente}"

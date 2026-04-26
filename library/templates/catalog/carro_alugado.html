@@ -6,10 +6,8 @@
 
 <form method="post">
     {% csrf_token %}
-    
 
     <h3>Dados do Cliente</h3>
-    {{ cliente_form.as_p }}
     
     <div>
         <label>Nome:</label>
@@ -49,4 +47,3 @@
     <button type="submit">Confirmar Aluguel</button>
 </form>
 {% endblock %}
-

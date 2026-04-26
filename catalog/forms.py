@@ -1,7 +1,15 @@
 from django import forms
 from .models import Carro
 from .models import Aluguel
+from .models import Cliente
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = ['nome', 'cpf', 'telefone', 'email']
 
 class CarroForm(forms.ModelForm):
     class Meta:
@@ -13,7 +21,7 @@ class AluguelForm(forms.ModelForm):
         model = Aluguel
         fields = ['quantidade_dias', 'forma_pagamento', 'observacoes']
 
-class AluguelForm(forms.ModelForm):
+class FuncionarioForm(UserCreationForm):
     class Meta:
-        model = Aluguel
-        fields = ['cliente', 'quantidade_dias']
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']

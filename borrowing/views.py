@@ -18,7 +18,7 @@ def carro_alugado(request, carro_id):
 
             carro = alugado.carro
 
-            # ✅ Evita estoque negativo
+            # Evita estoque negativo
             if carro.total_disponivel > 0:
                 alugado.save()
 

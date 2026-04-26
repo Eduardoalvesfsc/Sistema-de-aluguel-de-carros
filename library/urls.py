@@ -27,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Catalog
+    path('alugado/<int:carro_id>/', catalog_views.carro_alugado, name='carro_alugado'),
     path('', catalog_views.carro_list, name='carro_list'),
     path('add-carro/', catalog_views.add_carro, name='add_carro'),
     path('remover/<int:id>/', catalog_views.remover_carro, name='remover_carro'),

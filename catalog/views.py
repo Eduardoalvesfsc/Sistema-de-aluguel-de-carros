@@ -7,6 +7,8 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from datetime import timedelta
+from .forms import ClienteForm
+from .forms import AluguelForm
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -34,37 +36,48 @@ def remover_carro(request, id):
 def carro_alugado(request, carro_id):
     carro = get_object_or_404(Carro, id=carro_id)
 
-    if carro.quantidade <= 0:
+    if carro.total_disponivel <= 0:
         messages.error(request, "Carro indisponível")
         return redirect('carro_list')
 
     if request.method == 'POST':
+        cliente_form = ClienteForm(request.POST)
         form = AluguelForm(request.POST)
-        if form.is_valid():
+
+        if cliente_form.is_valid() and form.is_valid():
+
+            # salva cliente
+            cliente = cliente_form.save()
+
+            # cria aluguel SEM salvar ainda
             aluguel = form.save(commit=False)
-            
             aluguel.funcionario = request.user
+            aluguel.cliente = cliente
             aluguel.carro = carro
 
-            # ✅ define automaticamente a data de início
-            aluguel.data_inicio = timezone.now()
-
-            # ✅ validação profissional
+            # validação
             if aluguel.quantidade_dias <= 0:
                 messages.error(request, "Quantidade de dias deve ser maior que zero")
-                return render(request, 'catalog/carro_alugado.html', {'form': form})
+                return render(request, 'catalog/carro_alugado.html', {
+                    'form': form,
+                    'cliente_form': cliente_form
+                })
 
-            # ✅ calcula data final automaticamente
-            aluguel.data_fim = aluguel.data_inicio + timedelta(days=aluguel.quantidade_dias)
-
+            # salva aluguel
             aluguel.save()
 
-            carro.quantidade -= 1
+            # atualiza estoque
+            carro.total_disponivel -= 1
             carro.save()
 
             messages.success(request, "Aluguel realizado com sucesso!")
             return redirect('carro_list')
+
     else:
         form = AluguelForm()
+        cliente_form = ClienteForm()
 
-    return render(request, 'catalog/carro_alugado.html', {'form': form})
+    return render(request, 'catalog/carro_alugado.html', {
+        'form': form,
+        'cliente_form': cliente_form
+    })

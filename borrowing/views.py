@@ -3,6 +3,7 @@ from .models import CarroAlugado
 from .forms import CarroAlugadoForm, RegisterForm
 from catalog.models import Carro
 from django.contrib.auth.decorators import login_required
+from catalog.models import Aluguel
 import datetime
 
 
@@ -37,17 +38,17 @@ def carro_alugado(request, carro_id):
 
 @login_required
 def return_carro(request, pk):
-    alugado = get_object_or_404(
-        CarroAlugado,
+    aluguel = get_object_or_404(
+        Aluguel,
         pk=pk,
-        user=request.user,
-        returned=False
+        funcionario=request.user,
+        devolvido=False
     )
 
-    alugado.returned = True
-    alugado.save()
+    aluguel.devolvido = True
+    aluguel.save()
 
-    carro = alugado.carro
+    carro = aluguel.carro
     carro.total_disponivel += 1
     carro.save()
 
@@ -56,15 +57,15 @@ def return_carro(request, pk):
 
 @login_required
 def meus_carros(request):
-    carros_alugados = CarroAlugado.objects.filter(
-        user=request.user,
-        returned=False
+    carros_alugados = Aluguel.objects.filter(
+        funcionario=request.user,
+        devolvido=False
     )
 
-    history = CarroAlugado.objects.filter(
-        user=request.user,
-        returned=True
-    ).order_by('-data_aluguel')[:10]
+    history = Aluguel.objects.filter(
+        funcionario=request.user,
+        devolvido=True
+    ).order_by('-data_inicio')[:10]
 
     return render(request, 'borrowing/meus_carros.html', {
         'carros_alugados': carros_alugados,

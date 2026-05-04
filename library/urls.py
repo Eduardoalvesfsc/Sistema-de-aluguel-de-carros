@@ -22,18 +22,20 @@ from django.contrib.auth import views as auth_views
 from borrowing.views import register_view
 from django.conf import settings
 from django.conf.urls.static import static
+from catalog.views import cadastrar_funcionario
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('funcionarios/cadastro/', cadastrar_funcionario, name='cadastrar_funcionario'),
 
     # Catalog
     path('alugado/<int:carro_id>/', catalog_views.carro_alugado, name='carro_alugado'),
     path('', catalog_views.carro_list, name='carro_list'),
     path('add-carro/', catalog_views.add_carro, name='add_carro'),
     path('remover/<int:id>/', catalog_views.remover_carro, name='remover_carro'),
+    path('devolver/<int:pk>/', borrowing_views.return_carro, name='return_carro'),
 
     # Borrowing
-    path('alugado/<int:carro_id>/', borrowing_views.carro_alugado, name='carro_alugado'),
     path('return/<int:pk>/', borrowing_views.return_carro, name='return_carro'),
     path('meus-carros/', borrowing_views.meus_carros, name='meus_carros'),
     path('vencido/', borrowing_views.data_vencida, name='data_vencida'),

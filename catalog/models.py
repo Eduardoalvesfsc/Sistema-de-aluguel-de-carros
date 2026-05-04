@@ -23,14 +23,16 @@ class Cliente(models.Model):
 
 class Aluguel(models.Model):
     funcionario = models.ForeignKey(User, on_delete=models.CASCADE)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
     carro = models.ForeignKey('Carro', on_delete=models.CASCADE)
 
     data_inicio = models.DateField(auto_now_add=True)
-    quantidade_dias = models.IntegerField()
+    quantidade_dias = models.IntegerField(null=True, blank=True)
 
-    forma_pagamento = models.CharField(max_length=50)
+    forma_pagamento = models.CharField(max_length=50, null=True, blank=True)
     observacoes = models.TextField(blank=True, null=True)
+
+    devolvido = models.BooleanField(default=False)
 
     def data_fim(self):
         return self.data_inicio + timedelta(days=self.quantidade_dias)

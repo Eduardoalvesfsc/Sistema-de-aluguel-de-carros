@@ -5,7 +5,6 @@
 <h1>Meus carros</h1>
 
 <p>
-    <!-- Corrigido: agora direciona para a lista de carros -->
     <a href="{% url 'carro_list' %}">Alugar um novo carro</a>
 </p>
 
@@ -16,10 +15,18 @@
         {% for aluguel in carros_alugados %}
             <li>
                 <strong>{{ aluguel.carro.nome }}</strong><br>
-                Vencimento: {{ aluguel.data_vencida }}
 
-                <br><br>
+                <p><strong>Cliente:</strong> {{ aluguel.cliente.nome }}</p>
+                <p><strong>CPF:</strong> {{ aluguel.cliente.cpf }}</p>
+                <p><strong>Telefone:</strong> {{ aluguel.cliente.telefone }}</p>
+                <p><strong>Email:</strong> {{ aluguel.cliente.email }}</p>
 
+                <p><strong>Dias:</strong> {{ aluguel.quantidade_dias }}</p>
+                <p><strong>Pagamento:</strong> {{ aluguel.forma_pagamento }}</p>
+                <p><strong>Observações:</strong> {{ aluguel.observacoes }}</p>
+
+                <p><strong>Vencimento:</strong> {{ aluguel.data_fim }}</p>
+                
                 <form action="{% url 'return_carro' aluguel.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Devolver</button>
@@ -39,7 +46,13 @@
         {% for h in history %}
             <li>
                 <strong>{{ h.carro.nome }}</strong><br>
-                Alugado em: {{ h.data_aluguel }}
+
+                <p><strong>Cliente:</strong> {{ h.cliente.nome }}</p>
+                <p><strong>Dias:</strong> {{ h.quantidade_dias }}</p>
+                <p><strong>Pagamento:</strong> {{ h.forma_pagamento }}</p>
+
+                <p>Alugado em: {{ h.data_inicio }}</p>
+                <p>Finalizado em: {{ h.data_fim }}</p>
             </li>
             <hr>
         {% endfor %}
@@ -47,7 +60,5 @@
 {% else %}
     <p>Sem histórico ainda.</p>
 {% endif %}
-
-
 
 {% endblock %}

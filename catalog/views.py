@@ -9,6 +9,9 @@ from django.utils import timezone
 from datetime import timedelta
 from .forms import ClienteForm
 from .forms import AluguelForm
+from django.contrib.auth.decorators import user_passes_test
+from .forms import FuncionarioForm
+from django.contrib.auth.models import User
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -81,3 +84,20 @@ def carro_alugado(request, carro_id):
         'form': form,
         'cliente_form': cliente_form
     })
+
+def is_admin(user):
+    return user.is_superuser
+
+@user_passes_test(is_admin)
+def cadastrar_funcionario(request):
+    if request.method == 'POST':
+        form = FuncionarioForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_staff = True  #  funcionário
+            user.save()
+            return redirect('carro_list')
+    else:
+        form = FuncionarioForm()
+
+    return render(request, 'funcionarios/cadastro.html', {'form': form})

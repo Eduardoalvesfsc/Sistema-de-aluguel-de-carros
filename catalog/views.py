@@ -11,7 +11,7 @@ from .forms import ClienteForm
 from .forms import AluguelForm
 from django.contrib.auth.decorators import user_passes_test
 from .forms import FuncionarioForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -89,13 +89,18 @@ def is_admin(user):
     return user.is_superuser
 
 @user_passes_test(is_admin)
+
+
 def cadastrar_funcionario(request):
     if request.method == 'POST':
         form = FuncionarioForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_staff = True  #  funcionário
-            user.save()
+            user = form.save()
+
+            # adiciona ao grupo Funcionarios
+            grupo, _ = Group.objects.get_or_create(name='Funcionarios')
+            user.groups.add(grupo)
+
             return redirect('carro_list')
     else:
         form = FuncionarioForm()

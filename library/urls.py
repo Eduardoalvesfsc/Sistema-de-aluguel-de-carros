@@ -41,6 +41,7 @@ urlpatterns = [
     path('vencido/', borrowing_views.data_vencida, name='data_vencida'),
 
     # Auth
+    path('cadastrar-funcionario/', cadastrar_funcionario, name='cadastrar_funcionario'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('register/', register_view, name='register'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),

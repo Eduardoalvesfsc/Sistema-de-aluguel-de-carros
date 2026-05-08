@@ -21,7 +21,18 @@ class AluguelForm(forms.ModelForm):
         model = Aluguel
         fields = ['quantidade_dias', 'forma_pagamento', 'observacoes']
 
-class FuncionarioForm(UserCreationForm):
+class FuncionarioForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'password']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])  # 🔥 ESSENCIAL
+        user.is_staff = True
+
+        if commit:
+            user.save()
+        return user

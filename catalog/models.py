@@ -9,6 +9,8 @@ class Carro(models.Model):
     total_disponivel = models.IntegerField(default=0)
     imagem = models.ImageField(upload_to='carros/', null=True, blank=True)
 
+    valor_diaria = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
     def __str__(self):
         return self.nome
     

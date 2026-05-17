@@ -19,7 +19,7 @@ class CarroForm(forms.ModelForm):
 class AluguelForm(forms.ModelForm):
     class Meta:
         model = Aluguel
-        fields = ['quantidade_dias', 'forma_pagamento', 'observacoes']
+        fields = ['quantidade_dias', 'forma_pagamento', 'observacoes', 'assinatura_cliente']
 
 class FuncionarioForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)

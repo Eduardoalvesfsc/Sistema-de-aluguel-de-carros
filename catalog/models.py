@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import timedelta
+from datetime import date
 
 class Carro(models.Model):
     nome = models.CharField(max_length=100)
@@ -36,8 +37,20 @@ class Aluguel(models.Model):
 
     devolvido = models.BooleanField(default=False)
 
+    valor_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    assinatura_cliente = models.TextField(blank=True, null=True)
+
     def data_fim(self):
         return self.data_inicio + timedelta(days=self.quantidade_dias)
 
     def __str__(self):
         return f"{self.carro} - {self.cliente}"
+    
+    def calcular_valor(self):
+        if self.data_fim:
+            dias = (self.data_fim - self.data_inicio).days
+            if dias == 0:
+                dias = 1
+            return dias * self.carro.valor_diaria
+        return 0

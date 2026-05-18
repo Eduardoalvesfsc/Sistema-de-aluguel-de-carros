@@ -14,7 +14,7 @@ class ClienteForm(forms.ModelForm):
 class CarroForm(forms.ModelForm):
     class Meta:
         model = Carro
-        fields = [ "nome", "marca", "ano", "total_disponivel", "imagem"]
+        fields = [ "nome", "marca", "ano", "total_disponivel", "valor_diaria", "imagem"]
 
 class AluguelForm(forms.ModelForm):
     class Meta:

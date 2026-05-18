@@ -95,3 +95,18 @@ def register_view(request):
         form = RegisterForm()
 
     return render(request, 'registration/register.html', {'form': form})
+
+
+def contrato(request, aluguel_id):
+    aluguel = get_object_or_404(Aluguel, id=aluguel_id)
+
+    return render(request, 'aluguel/contrato.html', {
+        'aluguel': aluguel
+    })
+
+def contrato(request, aluguel_id):
+    aluguel = get_object_or_404(Aluguel, id=aluguel_id)
+
+    return render(request, 'aluguel/contrato.html', {
+        'aluguel': aluguel
+    })

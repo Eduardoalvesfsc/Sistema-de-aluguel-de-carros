@@ -39,7 +39,10 @@ class Aluguel(models.Model):
 
     valor_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-    assinatura_cliente = models.TextField(blank=True, null=True)
+    assinatura_cliente = models.ImageField(
+    upload_to='assinaturas/',
+    null=True,
+    blank=True)
 
     def data_fim(self):
         return self.data_inicio + timedelta(days=self.quantidade_dias)

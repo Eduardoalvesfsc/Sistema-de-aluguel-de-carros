@@ -7,5 +7,6 @@ from django.contrib.auth import views as auth_views
 from borrowing.views import register_view
 
 urlpatterns = [
-    path('meus_carros/', views.meus_carros, name='meus_carros')
+    path('meus_carros/', views.meus_carros, name='meus_carros'),
+    path('contrato/<int:aluguel_id>/',views.contrato,name='contrato'),
 ]

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Contrato de Locação</title>
+</head>
+<body>
+
+    <h1>Contrato de Locação de Veículo</h1>
+
+    <hr>
+
+    <p><strong>Cliente:</strong> {{ aluguel.cliente.username }}</p>
+
+    <p><strong>Carro:</strong> {{ aluguel.carro.nome }}</p>
+
+    <p><strong>Marca:</strong> {{ aluguel.carro.marca }}</p>
+
+    <p><strong>Data início:</strong> {{ aluguel.data_inicio }}</p>
+
+    <p><strong>Quantidade de dias:</strong> {{ aluguel.quantidade_dias }}</p>
+
+    <p><strong>Valor total:</strong> R$ {{ aluguel.valor_total }}</p>
+
+    <hr>
+
+    <h3>Assinatura do Cliente</h3>
+
+    {% if aluguel.assinatura_cliente %}
+        <img src="{{ aluguel.assinatura_cliente.url }}" width="300">
+    {% else %}
+        <p>Sem assinatura.</p>
+    {% endif %}
+
+</body>
+</html>

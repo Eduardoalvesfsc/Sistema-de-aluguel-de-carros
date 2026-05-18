@@ -12,6 +12,12 @@ from .forms import AluguelForm
 from django.contrib.auth.decorators import user_passes_test
 from .forms import FuncionarioForm
 from django.contrib.auth.models import User, Group
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from .models import Aluguel
+from django.conf import settings
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -106,3 +112,64 @@ def cadastrar_funcionario(request):
         form = FuncionarioForm()
 
     return render(request, 'funcionarios/cadastro.html', {'form': form})
+
+def contrato_pdf(request, aluguel_id):
+    aluguel = Aluguel.objects.get(id=aluguel_id)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="contrato.pdf"'
+
+    p = canvas.Canvas(response)
+
+    valor_total = aluguel.carro.valor_diaria * aluguel.quantidade_dias
+
+    y = 800
+
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(180, y, "CONTRATO DE LOCAÇÃO")
+    y -= 50
+
+    p.setFont("Helvetica", 12)
+
+    p.drawString(50, y, f"Cliente: {aluguel.cliente.nome}")
+    y -= 25
+
+    p.drawString(50, y, f"CPF: {aluguel.cliente.cpf}")
+    y -= 25
+
+    p.drawString(50, y, f"Telefone: {aluguel.cliente.telefone}")
+    y -= 25
+
+    p.drawString(50, y, f"E-mail: {aluguel.cliente.email}")
+    y -= 40
+
+    p.drawString(50, y, f"Veículo: {aluguel.carro.nome}")
+    y -= 25
+
+    p.drawString(50, y, f"Marca: {aluguel.carro.marca}")
+    y -= 25
+
+    p.drawString(50, y, f"Ano: {aluguel.carro.ano}")
+    y -= 40
+
+    p.drawString(50, y, f"Quantidade de dias: {aluguel.quantidade_dias}")
+    y -= 25
+
+    p.drawString(50, y, f"Valor da diária: R$ {aluguel.carro.valor_diaria}")
+    y -= 25
+
+    p.drawString(50, y, f"Valor total: R$ {valor_total}")
+    y -= 25
+
+    p.drawString(50, y, f"Forma de pagamento: {aluguel.forma_pagamento}")
+    y -= 40
+
+    p.drawString(50, y, "Assinatura do Cliente:")
+    y -= 60
+
+    p.line(50, y, 300, y)
+
+    p.showPage()
+    p.save()
+
+    return response

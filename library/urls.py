@@ -23,6 +23,10 @@ from borrowing.views import register_view
 from django.conf import settings
 from django.conf.urls.static import static
 from catalog.views import cadastrar_funcionario
+from django.conf import settings
+from django.conf.urls.static import static
+from catalog import views
+from catalog.views import contrato_pdf
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +38,8 @@ urlpatterns = [
     path('add-carro/', catalog_views.add_carro, name='add_carro'),
     path('remover/<int:id>/', catalog_views.remover_carro, name='remover_carro'),
     path('devolver/<int:pk>/', borrowing_views.return_carro, name='return_carro'),
+
+    path('contrato/<int:aluguel_id>/', contrato_pdf, name='contrato_pdf'),
 
     # Borrowing
     path('return/<int:pk>/', borrowing_views.return_carro, name='return_carro'),

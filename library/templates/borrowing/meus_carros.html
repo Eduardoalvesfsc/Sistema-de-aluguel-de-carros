@@ -26,6 +26,23 @@
                 <p><strong>Observações:</strong> {{ aluguel.observacoes }}</p>
 
                 <p><strong>Vencimento:</strong> {{ aluguel.data_fim }}</p>
+
+                <a href="{% url 'contrato_pdf' aluguel.id %}" target="_blank">
+                    <button type="button">
+                        Assinar contrato
+                    </button>
+                </a>
+
+                <form action="{% url 'return_carro' aluguel.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Devolver</button>
+                </form>
+
+                <strong>{{ aluguel.carro.nome }}</strong><br>
+                <p><strong>Cliente:</strong> {{ aluguel.cliente.nome }}</p>
+                <a href="{% url 'contrato_pdf' aluguel.id %}" target="_blank">
+                    <button type="button">Assinar contrato</button>
+                </a>
                 
                 <form action="{% url 'return_carro' aluguel.id %}" method="post">
                     {% csrf_token %}

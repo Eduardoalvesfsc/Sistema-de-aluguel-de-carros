@@ -44,6 +44,7 @@ class Aluguel(models.Model):
     null=True,
     blank=True)
 
+    @property
     def data_fim(self):
         return self.data_inicio + timedelta(days=self.quantidade_dias)
 
@@ -51,9 +52,50 @@ class Aluguel(models.Model):
         return f"{self.carro} - {self.cliente}"
     
     def calcular_valor(self):
-        if self.data_fim:
-            dias = (self.data_fim - self.data_inicio).days
-            if dias == 0:
-                dias = 1
-            return dias * self.carro.valor_diaria
-        return 0
+        return self.quantidade_dias * self.carro.valor_diaria
+    
+def dashboard(request):
+
+    total_carros = Carro.objects.count()
+
+    carros_alugados = Aluguel.objects.filter(
+        devolvido=False
+    ).count()
+
+    carros_disponiveis = Carro.objects.filter(
+        total_disponivel__gt=0
+    ).count()
+
+    total_clientes = Cliente.objects.count()
+
+    receita_total = sum(
+        aluguel.carro.valor_diaria * aluguel.quantidade_dias
+        for aluguel in Aluguel.objects.all()
+    )
+
+    ultimos_alugueis = (
+        Aluguel.objects
+        .select_related('carro', 'cliente')
+        .order_by('-id')[:5]
+    )
+
+    proximas_devolucoes = (
+        Aluguel.objects
+        .filter(devolvido=False)
+        .order_by('data_inicio')[:5]
+    )
+
+    context = {
+        'total_carros': total_carros,
+        'carros_alugados': carros_alugados,
+        'carros_disponiveis': carros_disponiveis,
+        'total_clientes': total_clientes,
+        'receita_total': receita_total,
+        'proximas_devolucoes': proximas_devolucoes,
+    }
+
+    return render(
+        request,
+        'catalog/dashboard.html',
+        context
+    )

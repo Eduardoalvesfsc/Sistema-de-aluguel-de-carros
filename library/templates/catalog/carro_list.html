@@ -2,48 +2,66 @@
 
 {% block content %}
 
-<h1>Catálogo de Carros</h1>
+<div class="page-title">
 
-<ul>
-    {% for carro in carros %}
-        <li>
+    <h1>
+        <i class="fa-solid fa-car"></i>
+        Catálogo de Carros
+    </h1>
 
-            {{ carro.nome }} - {{ carro.marca }} ({{ carro.ano }}) 
-            | Disponível: {{ carro.total_disponivel }}
+    <div class="title-line"></div>
 
-            {% if user.is_authenticated %}
-                <form action="{% url 'carro_alugado' carro.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Alugar</button>
-                </form>
-            {% endif %}
+</div>
 
-            {% if carro.imagem %}
-            <img src="{{ carro.imagem.url }}" width="300">
-            {% endif %}
+<div style="margin-bottom:20px;">
+    <a href="{% url 'add_carro' %}" class="btn-novo-carro">
+        + Adicionar Novo Carro
+    </a>
+</div>
 
-            <!-- BOTÃO REMOVER -->
-            {% if user.is_staff %}
-                <form action="{% url 'remover_carro' carro.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" style="background-color:red;">
-                        Remover
-                    </button>
-                </form>
-            {% endif %}
-            
-            <p>Valor da diária: R$ {{ carro.valor_diaria }}</p>
+<div class="container-carros">
 
-        </li>
-    {% endfor %}
+{% for carro in carros %}
 
-</ul>
-        
-<br>
+    <div class="card-carro">
 
-{% if user.is_authenticated and user.is_staff %}
-    <a href="{% url 'add_carro' %}">Adicionar novo carro</a>
-{% endif %}
-<br>
+        <img src="{{ carro.imagem.url }}" class="imagem-carro">
+
+        <div class="nome-carro">
+            {{ carro.nome }}
+        </div>
+
+        <div class="info">
+            <strong>Marca:</strong> {{ carro.marca }}
+        </div>
+
+        <div class="info">
+            <strong>Ano:</strong> {{ carro.ano }}
+        </div>
+
+        <div class="info">
+            <strong>Disponíveis:</strong> {{ carro.total_disponivel }}
+        </div>
+
+        <div class="info">
+            <strong>Diária:</strong> R$ {{ carro.valor_diaria }}
+        </div>
+
+        <a href="{% url 'carro_alugado' carro.id %}" class="btn btn-alugar">
+            Alugar
+        </a>
+
+        <form action="{% url 'remover_carro' carro.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-remover">
+                Remover
+            </button>
+        </form>
+
+    </div>
+
+{% endfor %}
+
+</div>
 
 {% endblock %}

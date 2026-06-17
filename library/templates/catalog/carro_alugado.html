@@ -44,8 +44,33 @@
         {{ form.observacoes }}
     </div>
 
-    <p>Valor total: R$ {{ aluguel.valor_total }}</p>
+    <p>
+        Valor total: R$ {{ carro.valor_diaria }}</p>
+    <p>
+        <strong>Valor total:</strong>
+        R$ <span id="valor-total">0.00</span>
+    </p>
 
     <button type="submit">Confirmar Aluguel</button>
 </form>
+
+<script>
+
+const diaria = parseFloat("{{ carro.valor_diaria }}");
+
+const diasInput = document.getElementById("id_quantidade_dias");
+
+const valorTotal = document.getElementById("valor-total");
+
+diasInput.addEventListener("input", function() {
+
+    let dias = parseInt(diasInput.value) || 0;
+
+    let total = dias * diaria;
+
+    valorTotal.innerText = total.toFixed(2);
+
+});
+
+</script>
 {% endblock %}

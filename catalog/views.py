@@ -18,6 +18,8 @@ from .models import Aluguel
 from django.conf import settings
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
+from django.db.models import Sum, F
+from .models import Carro, Aluguel, Cliente
 
 def carro_list(request):
     carros = Carro.objects.all()
@@ -88,7 +90,8 @@ def carro_alugado(request, carro_id):
 
     return render(request, 'catalog/carro_alugado.html', {
         'form': form,
-        'cliente_form': cliente_form
+        'cliente_form': cliente_form,
+        'carro': carro
     })
 
 def is_admin(user):
@@ -112,6 +115,7 @@ def cadastrar_funcionario(request):
         form = FuncionarioForm()
 
     return render(request, 'funcionarios/cadastro.html', {'form': form})
+
 
 def contrato_pdf(request, aluguel_id):
     aluguel = Aluguel.objects.get(id=aluguel_id)
@@ -173,3 +177,78 @@ def contrato_pdf(request, aluguel_id):
     p.save()
 
     return response
+
+
+def dashboard(request):
+
+    total_carros = Carro.objects.count()
+
+    carros_disponiveis = Carro.objects.filter(
+        total_disponivel__gt=0
+    ).count()
+
+    carros_alugados = Aluguel.objects.filter(
+        devolvido=False
+    ).count()
+
+    total_clientes = Cliente.objects.count()
+
+    receita_total = 0
+
+    alugueis = Aluguel.objects.all()
+
+    for aluguel in alugueis:
+        receita_total += (
+            aluguel.carro.valor_diaria *
+            aluguel.quantidade_dias
+        )
+
+    proximas_devolucoes = (
+        Aluguel.objects
+        .filter(devolvido=False)
+        .order_by('data_inicio')[:5]
+    )
+
+    context = {
+        'total_carros': total_carros,
+        'carros_disponiveis': carros_disponiveis,
+        'carros_alugados': carros_alugados,
+        'total_clientes': total_clientes,
+        'receita_total': receita_total,
+        'proximas_devolucoes': proximas_devolucoes,
+    }
+
+    return render(
+        request,
+        'catalog/dashboard.html',
+        context
+    )
+
+def clientes_list(request):
+    clientes = Cliente.objects.all()
+
+    return render(
+        request,
+        'catalog/clientes.html',
+        {'clientes': clientes}
+    )
+
+def cliente_detalhes(request, cliente_id):
+
+    cliente = get_object_or_404(
+        Cliente,
+        id=cliente_id
+    )
+
+    alugueis = Aluguel.objects.filter(
+        cliente=cliente
+    )
+
+    return render(
+        request,
+        'catalog/cliente_detalhes.html',
+        {
+            'cliente': cliente,
+            'alugueis': alugueis
+        }
+    )

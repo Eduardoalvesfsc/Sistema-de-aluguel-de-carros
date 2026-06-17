@@ -38,6 +38,9 @@ urlpatterns = [
     path('add-carro/', catalog_views.add_carro, name='add_carro'),
     path('remover/<int:id>/', catalog_views.remover_carro, name='remover_carro'),
     path('devolver/<int:pk>/', borrowing_views.return_carro, name='return_carro'),
+    path('dashboard/',views.dashboard, name='dashboard'),
+    path('clientes/',views.clientes_list, name='clientes'),
+    path('cliente/<int:cliente_id>/',views.cliente_detalhes, name='cliente_detalhes'),
 
     path('contrato/<int:aluguel_id>/', contrato_pdf, name='contrato_pdf'),
 

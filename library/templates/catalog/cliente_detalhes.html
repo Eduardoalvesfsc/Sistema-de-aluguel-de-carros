@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ cliente.nome }}</h1>
+
+<p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+<p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+<p><strong>Email:</strong> {{ cliente.email }}</p>
+
+<hr>
+
+<h2>Histórico de Locações</h2>
+
+{% for aluguel in alugueis %}
+
+<div class="card-carro">
+
+    <div class="nome-carro">
+        {{ aluguel.carro.nome }}
+    </div>
+
+    <div class="info">
+        Dias:
+        {{ aluguel.quantidade_dias }}
+    </div>
+
+    <div class="info">
+        Pagamento:
+        {{ aluguel.forma_pagamento }}
+    </div>
+
+    <div class="info">
+        Valor:
+        R$ {{ aluguel.valor_total }}
+    </div>
+
+    <div class="info">
+        Início:
+        {{ aluguel.data_inicio }}
+    </div>
+
+    <div class="info">
+        Fim:
+        {{ aluguel.data_fim }}
+    </div>
+
+</div>
+
+{% empty %}
+
+<p>Este cliente ainda não possui locações.</p>
+
+{% endfor %}
+
+{% endblock %}

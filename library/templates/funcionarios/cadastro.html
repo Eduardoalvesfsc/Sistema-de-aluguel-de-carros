@@ -1,7 +1,43 @@
-<h2>Cadastrar Funcionário</h2>
+{% extends 'base.html' %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
-</form>
+{% block content %}
+
+<div class="funcionario-container">
+
+    <div class="funcionario-card">
+
+        <h1>
+            <i class="bi bi-person-plus-fill"></i>
+            Cadastrar Funcionário
+        </h1>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Usuário</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label>Senha</label>
+                {{ form.password }}
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar Senha</label>
+                {{ form.confirmar_password }}
+            </div>
+
+            <button type="submit" class="btn-funcionario">
+                <i class="bi bi-person-check-fill"></i>
+                Cadastrar Funcionário
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

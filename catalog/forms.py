@@ -21,18 +21,49 @@ class AluguelForm(forms.ModelForm):
         model = Aluguel
         fields = ['quantidade_dias', 'forma_pagamento', 'observacoes', 'assinatura_cliente']
 
+from django import forms
+from django.contrib.auth.models import User
+
 class FuncionarioForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+
+    password = forms.CharField(
+        label='Senha',
+        widget=forms.PasswordInput
+    )
+
+    confirmar_password = forms.CharField(
+        label='Confirmar Senha',
+        widget=forms.PasswordInput
+    )
 
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['username']
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        senha = cleaned_data.get('password')
+        confirmar = cleaned_data.get('confirmar_password')
+
+        if senha != confirmar:
+            raise forms.ValidationError(
+                "As senhas não coincidem."
+            )
+
+        return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data['password'])  # 🔥 ESSENCIAL
+
+        user.set_password(
+            self.cleaned_data['password']
+        )
+
         user.is_staff = True
+        user.is_active = True
 
         if commit:
             user.save()
+
         return user

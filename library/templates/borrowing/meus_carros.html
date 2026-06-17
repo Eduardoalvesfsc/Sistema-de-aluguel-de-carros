@@ -2,80 +2,125 @@
 
 {% block content %}
 
-<h1>Meus carros</h1>
+<div class="page-title">
+    <h1> Meus Aluguéis</h1>
 
-<p>
-    <a href="{% url 'carro_list' %}">Alugar um novo carro</a>
-</p>
+    <a href="{% url 'carro_list' %}" class="btn-novo-carro">
+        + Alugar Novo Carro
+    </a>
+</div>
 
-<h2>Atualmente alugados</h2>
+<h2 class="secao-titulo">Aluguéis Ativos</h2>
 
-{% if carros_alugados %}
-    <ul>
-        {% for aluguel in carros_alugados %}
-            <li>
-                <strong>{{ aluguel.carro.nome }}</strong><br>
+<div class="container-carros">
 
-                <p><strong>Cliente:</strong> {{ aluguel.cliente.nome }}</p>
-                <p><strong>CPF:</strong> {{ aluguel.cliente.cpf }}</p>
-                <p><strong>Telefone:</strong> {{ aluguel.cliente.telefone }}</p>
-                <p><strong>Email:</strong> {{ aluguel.cliente.email }}</p>
+{% for aluguel in carros_alugados %}
 
-                <p><strong>Dias:</strong> {{ aluguel.quantidade_dias }}</p>
-                <p><strong>Pagamento:</strong> {{ aluguel.forma_pagamento }}</p>
-                <p><strong>Observações:</strong> {{ aluguel.observacoes }}</p>
+<div class="card-carro">
 
-                <p><strong>Vencimento:</strong> {{ aluguel.data_fim }}</p>
+    {% if aluguel.carro.imagem %}
+        <img src="{{ aluguel.carro.imagem.url }}" class="imagem-carro">
+    {% endif %}
 
-                <a href="{% url 'contrato_pdf' aluguel.id %}" target="_blank">
-                    <button type="button">
-                        Assinar contrato
-                    </button>
-                </a>
+    <div class="nome-carro">
+        {{ aluguel.carro.nome }}
+    </div>
 
-                <form action="{% url 'return_carro' aluguel.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Devolver</button>
-                </form>
+    <div class="status ativo">
+        ATIVO
+    </div>
 
-                <strong>{{ aluguel.carro.nome }}</strong><br>
-                <p><strong>Cliente:</strong> {{ aluguel.cliente.nome }}</p>
-                <a href="{% url 'contrato_pdf' aluguel.id %}" target="_blank">
-                    <button type="button">Assinar contrato</button>
-                </a>
-                
-                <form action="{% url 'return_carro' aluguel.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Devolver</button>
-                </form>
-            </li>
-            <hr>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Você não tem carros alugados.</p>
-{% endif %}
+    <div class="info">
+        <strong>Cliente:</strong> {{ aluguel.cliente.nome }}
+    </div>
 
-<h2>Histórico</h2>
+    <div class="info">
+        <strong>CPF:</strong> {{ aluguel.cliente.cpf }}
+    </div>
 
-{% if history %}
-    <ul>
-        {% for h in history %}
-            <li>
-                <strong>{{ h.carro.nome }}</strong><br>
+    <div class="info">
+        <strong>Dias:</strong> {{ aluguel.quantidade_dias }}
+    </div>
 
-                <p><strong>Cliente:</strong> {{ h.cliente.nome }}</p>
-                <p><strong>Dias:</strong> {{ h.quantidade_dias }}</p>
-                <p><strong>Pagamento:</strong> {{ h.forma_pagamento }}</p>
+    <div class="info">
+        <strong>Pagamento:</strong> {{ aluguel.forma_pagamento }}
+    </div>
 
-                <p>Alugado em: {{ h.data_inicio }}</p>
-                <p>Finalizado em: {{ h.data_fim }}</p>
-            </li>
-            <hr>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Sem histórico ainda.</p>
-{% endif %}
+    <div class="info">
+        <strong>Vencimento:</strong> {{ aluguel.data_fim }}
+    </div>
+
+    <a href="{% url 'contrato_pdf' aluguel.id %}"
+       target="_blank"
+       class="btn btn-contrato">
+        📄 Contrato
+    </a>
+
+    <form action="{% url 'return_carro' aluguel.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-remover">
+            Devolver
+        </button>
+    </form>
+
+</div>
+
+{% empty %}
+
+<p>Você não possui veículos alugados.</p>
+
+{% endfor %}
+
+</div>
+
+<h2 class="secao-titulo">Histórico</h2>
+
+<div class="container-carros">
+
+{% for h in history %}
+
+<div class="card-carro historico">
+
+    {% if h.carro.imagem %}
+        <img src="{{ h.carro.imagem.url }}" class="imagem-carro">
+    {% endif %}
+
+    <div class="nome-carro">
+        {{ h.carro.nome }}
+    </div>
+
+    <div class="status finalizado">
+        FINALIZADO
+    </div>
+
+    <div class="info">
+        <strong>Cliente:</strong> {{ h.cliente.nome }}
+    </div>
+
+    <div class="info">
+        <strong>Dias:</strong> {{ h.quantidade_dias }}
+    </div>
+
+    <div class="info">
+        <strong>Pagamento:</strong> {{ h.forma_pagamento }}
+    </div>
+
+    <div class="info">
+        <strong>Início:</strong> {{ h.data_inicio }}
+    </div>
+
+    <div class="info">
+        <strong>Fim:</strong> {{ h.data_fim }}
+    </div>
+
+</div>
+
+{% empty %}
+
+<p>Nenhum histórico encontrado.</p>
+
+{% endfor %}
+
+</div>
 
 {% endblock %}

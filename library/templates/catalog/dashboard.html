@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="dashboard-header">
+    <h1><i class="bi bi-bar-chart-fill"></i> Dashboard</h1>
+</div>
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card">
+        <i class="bi bi-car-front-fill"></i>
+        <h3>{{ total_carros }}</h3>
+        <p>Veículos</p>
+    </div>
+
+    <div class="dashboard-card">
+        <i class="bi bi-key"></i>
+        <h3>{{ carros_alugados }}</h3>
+        <p>Alugados</p>
+    </div>
+
+    <div class="dashboard-card">
+        <i class="bi bi-check-circle"></i>
+        <h3>{{ carros_disponiveis }}</h3>
+        <p>Disponíveis</p>
+    </div>
+
+    <div class="dashboard-card">
+        <i class="bi bi-people-fill"></i>
+        <h3>{{ total_clientes }}</h3>
+        <p>Clientes</p>
+    </div>
+
+</div>
+
+<div class="receita-card">
+
+    <i class="bi bi-coin"></i>
+    <h2>Receita Total</h2>
+
+    <div class="receita-valor">
+        R$ {{ receita_total }}
+    </div>
+
+</div>
+
+<div class="dashboard-duplo">
+
+    <div class="bloco-dashboard">
+
+        <h2><i class="bi bi-clock-history"></i> Próximas Devoluções</h2>
+
+        {% for aluguel in proximas_devolucoes %}
+
+            <div class="item-dashboard">
+
+                <strong>{{ aluguel.cliente.nome }}</strong>
+
+                <p>{{ aluguel.carro.nome }}</p>
+
+                <small>
+                    Vence em:
+                    {{ aluguel.data_fim }}
+                </small>
+
+            </div>
+
+        {% empty %}
+
+            <p>Nenhuma devolução pendente.</p>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="bloco-dashboard">
+
+        <h2><i class="bi bi-car-front-fill"></i> Últimos Aluguéis</h2>
+
+        {% for aluguel in ultimos_alugueis %}
+
+            <div class="item-dashboard">
+
+                <strong>{{ aluguel.carro.nome }}</strong>
+
+                <p>{{ aluguel.cliente.nome }}</p>
+
+                <small>
+                    {{ aluguel.quantidade_dias }} dias
+                </small>
+
+            </div>
+
+        {% empty %}
+
+            <p>Nenhum aluguel encontrado.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

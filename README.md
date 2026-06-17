@@ -102,7 +102,7 @@ Antes de executar o sistema, certifique-se de possuir instalado:
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/Sistema-de-aluguel-de-carros.git
+git clone https://github.com/Eduardoalvesfsc/Sistema-de-aluguel-de-carros.git
 ```
 
 ### 2. Acessar a pasta do projeto
